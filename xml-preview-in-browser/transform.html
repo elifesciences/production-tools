@@ -1,0 +1,44 @@
+<html>
+<head>
+
+<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
+<link rel="stylesheet" href="article.css">
+<link rel="stylesheet" href="app.css">
+
+<script>
+
+function loadXMLDoc(dname){
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.open("GET", dname, false);
+xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+xmlhttp.send("");
+return xmlhttp.responseXML;
+}
+
+function displayResult()
+{
+console.log("loading docs");
+xml=loadXMLDoc("YOURXMLFILE.xml");
+xsl=loadXMLDoc("article.xsl");
+console.log("loaded docs");
+console.log(xml);
+console.log(xsl);
+xsltProcessor=new XSLTProcessor();
+xsltProcessor.importStylesheet(xsl);
+resultDocument = xsltProcessor.transformToFragment(xml,document);
+document.getElementById("example").appendChild(resultDocument);
+
+}
+</script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.js"></script>
+<script src="http://pagedown.googlecode.com/hg/Markdown.Converter.js"></script>
+<script src="app.js"></script>
+
+
+</head>
+<body onload="displayResult()">
+<div id="example"></div>
+</body>
+</html>
