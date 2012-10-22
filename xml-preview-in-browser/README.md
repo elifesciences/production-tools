@@ -7,7 +7,8 @@ This set of scripts will help you to preview an XML file in your web browser.
 
 1. ensure that git is installed
 1. Install Chrome. 
-1. `$cd /Sites` 
+1. Ensure that you have a `~/Sites` folder: `$mkdir ~/Sites`
+1. `$cd ~/Sites` 
 1. `$git clone git://github.com/hubgit/macrodocs.git`
 1. `$cp macrodocs/* .`
 1. `$git clone git@github.com:elifesciences/production-tools.git`
