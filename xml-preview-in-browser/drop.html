@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.js"></script>
+<script src="http://pagedown.googlecode.com/hg/Markdown.Converter.js"></script>
+<script src="app.js"></script>
+<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
+<link rel="stylesheet" href="article.css">
+<link rel="stylesheet" href="app.css">
+
+<head>
+<meta charset=utf-8>
+<meta name="viewport" content="width=620">
+<title>HTML5 Demo: File API</title>
+
+<style>
+#holder { border: 10px dashed #ccc; 
+		  width: 300px; 
+		  height: 60px; 
+		  margin: 20px auto;
+		  text-align: center;
+		  font: 100;
+		  margin-left: auto;
+		  margin-right: auto;
+		  vertical-align: middle;
+		  font-family: cursive;
+		}
+#holder.hover { border: 10px dashed #333; }
+</style>
+
+
+
+<script>
+
+function loadXMLDoc(dname){
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("GET", dname, false);
+  xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+  xmlhttp.send("");
+  return xmlhttp.responseXML;
+}
+
+function displayResult(xmlfile){ 
+  console.log("loading docs");
+  xml=loadXMLDoc(xmlfile);
+  xsl=loadXMLDoc("article.xsl");
+  console.log("loaded docs");
+  xsltProcessor=new XSLTProcessor();
+  xsltProcessor.importStylesheet(xsl);
+  resultDocument = xsltProcessor.transformToFragment(xml,document);
+  // console.log(resultDocument)
+  document.getElementById("example").appendChild(resultDocument);
+}
+</script>
+
+
+ 
+<body>
+<section id="wrapper">
+
+
+
+<article>
+  <div id="holder">Drop thy files here!</div> 
+</article>
+
+<script>
+		var holder = document.getElementById('holder'),
+    	state = document.getElementById('status');
+ 
+		holder.ondragover = function () { this.className = 'hover'; return false; };
+		holder.ondragend = function () { this.className = ''; return false; };
+		
+		holder.ondrop = function (e) {
+  			this.className = '';
+  			e.preventDefault();
+
+  			var file = e.dataTransfer.files[0];
+  			console.log(file);
+      		reader = new FileReader();
+
+	  		reader.onload = function (event) {
+
+	  			// drop the exising document
+	  			var articleNode = document.getElementById("example")
+	  			articleNode.innerHTML = '';
+	  			// pass in the new file
+	  			console.log(file.name);
+	  			displayResult(file.name);
+    			// console.log(event.target);
+    			// holder.style.background = 'url(' + event.target.result + ') no-repeat center';
+  			};
+
+  			reader.readAsText(file);
+  			console.log(reader);
+			console.log("calling displayResult");		 
+  			console.log("called displayResult");			   			
+		};
+
+</script>
+
+
+</section>
+
+<div id="example"></div>
+</body>
+
+</body>
+</html>
